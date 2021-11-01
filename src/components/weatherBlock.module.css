@@ -1,0 +1,10 @@
+.wrapp {
+    display: grid;
+    justify-content: center;
+    padding: 20px;
+}
+
+.text {
+    display: grid;
+    justify-self: center;
+}
