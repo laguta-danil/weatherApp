@@ -1,27 +1,25 @@
 import { textTypes } from './../models/types';
-import { fetchWeather, getWeatherData } from './actionCreactor';
+import { fetchWeather } from './actionCreactor';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { weatherTypes } from '../models/types';
 
 
 interface WeatherState {
-    getWeather: weatherTypes[];
     isLoading: boolean;
     error: string;
-    textBlock: textTypes[];
-    text: string
+    citiesData: textTypes[];
+    text: string;
+    id: number
+
 }
 
 
 const initialState: WeatherState = {
-    getWeather: [],
     isLoading: false,
     error: '',
-    textBlock: [
-        { id: 0, name: 'rostov', description: 'something', temperature: 10, feels_like: 8 },
-        { id: 1, name: 'new', description: 'gde eto', temperature: 20, feels_like: 12 }
-    ],
-    text: 'rostov'
+    citiesData: [],
+    text: 'rostov',
+    id: 0
 
 }
 
@@ -32,6 +30,12 @@ export const WeatherSlice = createSlice({
     reducers: {
         changer(state, action: PayloadAction<any>) {
             state.text = action.payload
+        },
+        handleDeleteData (state, action: any) {
+            state.citiesData = action.payload
+        }, 
+        localStoreCities (state, action: any) {
+            state.citiesData = action.payload
         }
         // weatherFetching(state) {
         //     state.isLoading = true;
@@ -52,7 +56,7 @@ export const WeatherSlice = createSlice({
         [fetchWeather.fulfilled.type]: (state, action: PayloadAction<weatherTypes[]>) => {
             state.isLoading = false;
             state.error = '';
-            state.getWeather = action.payload;
+            state.citiesData = action.payload;
         },
         [fetchWeather.pending.type]: (state) => {
             state.isLoading = true;
@@ -61,22 +65,10 @@ export const WeatherSlice = createSlice({
             state.isLoading = false;
             state.error = action.payload
         },
-        [getWeatherData.fulfilled.type]: (state, action: PayloadAction<any>) => {
-            state.isLoading = false;
-            state.error = '';
-            state.textBlock = [...state.textBlock, action.payload]
-                debugger
-        },
-        [getWeatherData.pending.type]: (state) => {
-            state.isLoading = true;
-        },
-        [getWeatherData.rejected.type]: (state, action: PayloadAction<string>) => {
-            state.isLoading = false;
-            state.error = action.payload
-        },
-        
-    }
     
+
+    }
+
 })
 
 export default WeatherSlice.reducer;

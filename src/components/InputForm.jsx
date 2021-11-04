@@ -1,29 +1,58 @@
 
-import React from 'react'
-import { Card } from 'react-bootstrap'
-import { fetchWeather, getWeatherData } from '../redux/reducers/actionCreactor'
+import React, { useEffect } from 'react'
+import { CardGroup } from 'react-bootstrap'
+import { fetchWeather} from '../redux/reducers/actionCreactor'
 import { WeatherSlice } from '../redux/reducers/weatherReducer'
 import { useAppDispatch, useAppSelector } from '../redux/reduxHooks/reduxHooks'
 import CurrentWeather from './CurrentWeather'
 import './inputStyle.css'
 
 
-
 const InputForm = (props) => {
 
-    const { changer } = WeatherSlice.actions
+    const { changer, localStoreCities } = WeatherSlice.actions
     const dispatch = useAppDispatch()
-    const { getWeather, text, textBlock } = useAppSelector(state => state.weatherReducer)
+    const { getWeather, text, citiesData } = useAppSelector(state => state.weatherReducer)
 
     const callbackText = (e) => {
         dispatch(changer(e.target.value))
     }
 
+    useEffect (() => {
+        const localData = localStorage.getItem('cities')
+        const cities = localData ? JSON.parse(localData) : []
+        dispatch(localStoreCities(cities))
+    }, [])
 
-    const addCard = () => {
-        dispatch(getWeatherData(getWeather))
-        debugger
+    // const checker = textBlock.forEach((elem) => {
+    //         if (elem.id !== getWeather.id) {
+    //             dispatch(getWeatherData(getWeather))
+    //         } else {
+    //             dispatch(getWeatherData('moskow'))
+    //         }
+    //     })
+
+
+    const addCard = (e) => {
+        e.preventDefault()
+        dispatch(fetchWeather({city: text, cities: citiesData}))
+        
     }
+
+    const addCardToBlock = (e) => {
+        // e.preventDefault()
+        // dispatch(getWeatherData(getWeather))
+    }
+
+
+    const weatherList = citiesData.map((arr) => <CurrentWeather
+        city={arr.name}
+        description={arr.description}
+        temperature={arr.temperature}
+        feels_like={arr.feels_like}
+        id={arr.id}
+    />)
+    
 
 
     return (
@@ -36,27 +65,14 @@ const InputForm = (props) => {
                 name='city'
             />
             <h1>{text}</h1>
-            <button onClick={(e) => dispatch(fetchWeather(e.target.value))} >add</button>
+            <button onClick={addCard} >add</button>
             {/* <button onSubmit={() => dispatch(fetchWeather(city))}>Submit</button> */}
             {/* {getWeather.name} {getWeather.main.temp}  */}
-            {(getWeather.name ? <CurrentWeather className="main"
-                city={getWeather.name}
-                description={getWeather.weather[0].description}
-                temperature={getWeather.main.temp}
-                feels_like={getWeather.main.feels_like}
-            /> : null)}
-            <button onClick={()=> dispatch(getWeatherData(getWeather))}> mapping</button>
+            <button onClick={addCardToBlock}> mapping</button>
             {JSON.stringify(getWeather)}
-            <Card style={{ width: '24rem' }} border='dark' className='m-2'>
-            {
-                textBlock.map((arr) => <CurrentWeather
-                    city={arr.name}
-                    description={arr.description}
-                    temperature={arr.temperature}
-                    feels_like={arr.feels_like}
-                />)
-            }
-            </Card>
+            <CardGroup border='dark' className='p-6'>
+                {weatherList}
+            </CardGroup>
 
         </form>
     )

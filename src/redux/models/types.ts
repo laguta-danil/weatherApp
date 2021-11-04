@@ -11,5 +11,5 @@
     name: string;
     description: string;
     temperature: number;
-    feels_like: number
+    feels_like: number;
  }
