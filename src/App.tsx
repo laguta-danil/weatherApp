@@ -8,18 +8,17 @@ import { Preloader } from './components/Preloader';
 
 
 function App() {
-  const {isLoading, error} = useAppSelector(state => state.weatherReducer)
-
-  // useEffect(() => {
-  //   dispatch(fetchWeather('kiev'))
-
-  // }, [])
+  const { isLoading, error } = useAppSelector(state => state.weatherReducer)
 
   return (
     <div>
-      <WeatherBlock/>
+      <span className='preloader'>
       {isLoading && <h3>DOWNLOAD <Preloader /></h3>}
-      {error && <h1>{error}</h1>}
+      </span>
+      <span>
+      {error && <h3>{error}</h3>}
+      </span>
+      <WeatherBlock />
     </div>
   );
 }

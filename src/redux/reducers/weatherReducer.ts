@@ -1,5 +1,5 @@
 import { textTypes } from './../models/types';
-import { fetchWeather } from './actionCreactor';
+import { fetchWeather, getWeatherLocal } from './actionCreactor';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { weatherTypes } from '../models/types';
 
@@ -65,6 +65,20 @@ export const WeatherSlice = createSlice({
             state.isLoading = false;
             state.error = action.payload
         },
+        [getWeatherLocal.fulfilled.type]: (state, action: PayloadAction<weatherTypes[]>) => {
+            state.isLoading = false;
+            state.error = '';
+            state.citiesData = action.payload;
+        },
+        [getWeatherLocal.pending.type]: (state) => {
+            state.isLoading = true;
+        },
+        [getWeatherLocal.rejected.type]: (state, action: PayloadAction<string>) => {
+            state.isLoading = false;
+            state.error = action.payload
+        },
+
+
     
 
     }

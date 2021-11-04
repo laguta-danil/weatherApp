@@ -34,7 +34,7 @@ const CurrentWeather = ({ description, city, temperature, feels_like, id }) => {
             </Card.Body>
             <span>
                 <Button onClick={() => handleDelete()} style={{ width: '10rem' }} variant='dark' className='m-1' >Delete</Button>
-                <Button style={{ width: '10rem' }} variant='danger' >Renew</Button>
+                <Button style={{ width: '10rem' }} variant='danger' className='m-1' >Renew</Button>
             </span>
         </Card>
 

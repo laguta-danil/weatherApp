@@ -1,7 +1,7 @@
 
 import React, { useEffect } from 'react'
-import { CardGroup } from 'react-bootstrap'
-import { fetchWeather} from '../redux/reducers/actionCreactor'
+import { Button, CardGroup } from 'react-bootstrap'
+import { fetchWeather, getWeatherLocal} from '../redux/reducers/actionCreactor'
 import { WeatherSlice } from '../redux/reducers/weatherReducer'
 import { useAppDispatch, useAppSelector } from '../redux/reduxHooks/reduxHooks'
 import CurrentWeather from './CurrentWeather'
@@ -22,28 +22,14 @@ const InputForm = (props) => {
         const localData = localStorage.getItem('cities')
         const cities = localData ? JSON.parse(localData) : []
         dispatch(localStoreCities(cities))
+        dispatch(getWeatherLocal(cities))
     }, [])
-
-    // const checker = textBlock.forEach((elem) => {
-    //         if (elem.id !== getWeather.id) {
-    //             dispatch(getWeatherData(getWeather))
-    //         } else {
-    //             dispatch(getWeatherData('moskow'))
-    //         }
-    //     })
-
 
     const addCard = (e) => {
         e.preventDefault()
         dispatch(fetchWeather({city: text, cities: citiesData}))
         
     }
-
-    const addCardToBlock = (e) => {
-        // e.preventDefault()
-        // dispatch(getWeatherData(getWeather))
-    }
-
 
     const weatherList = citiesData.map((arr) => <CurrentWeather
         city={arr.name}
@@ -65,11 +51,7 @@ const InputForm = (props) => {
                 name='city'
             />
             <h1>{text}</h1>
-            <button onClick={addCard} >add</button>
-            {/* <button onSubmit={() => dispatch(fetchWeather(city))}>Submit</button> */}
-            {/* {getWeather.name} {getWeather.main.temp}  */}
-            <button onClick={addCardToBlock}> mapping</button>
-            {JSON.stringify(getWeather)}
+            <Button onClick={addCard} >ADd</Button>
             <CardGroup border='dark' className='p-6'>
                 {weatherList}
             </CardGroup>
