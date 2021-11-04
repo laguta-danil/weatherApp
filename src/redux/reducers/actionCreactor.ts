@@ -23,12 +23,10 @@ export const fetchWeather = createAsyncThunk(
             localStorage.setItem('cities', JSON.stringify(data))
             return data
         } catch (e: any) {
-            return thunkAPI.rejectWithValue(e.message)
+            return thunkAPI.rejectWithValue('Вы ввели некоректное название города - попробуйте снова!')
         }
     }
 )
-
-
 
 
 export const getWeatherLocal = createAsyncThunk(
@@ -39,26 +37,37 @@ export const getWeatherLocal = createAsyncThunk(
                 return axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city.name}&appid=c6fe9da2e085c26438563308a53617cb`)
             }))
             console.log(data)
-            return data.map((arr:any) => {
+            return data.map((arr: any) => {
                 return {
-                    name: arr.data.name ,
+                    name: arr.data.name,
                     description: arr.data.weather[0].description,
                     temperature: arr.data.main.temp,
-                    feels_like: arr.data.main.feels_like ,
+                    feels_like: arr.data.main.feels_like,
                     id: arr.data.id,
                 }
             })
-            
+        } catch {
 
-        } catch (e: any) {
-            return thunkAPI.rejectWithValue(e.message)
         }
     }
 )
 
+// export const getRenewWeather = createAsyncThunk(
+//     'weather/data',
+//     async (cities: any, thunkAPI) => {
+//         try {
+//             const data = await axios.get<weatherTypes[]>(`https://api.openweathermap.org/data/2.5/weather?q=${city.name}&appid=c6fe9da2e085c26438563308a53617cb`)
+//             console.log(data)
+//             return {
+//                 name: data.name,
+//                 description: data.weather[0].description,
+//                 temperature: data.main.temp,
+//                 feels_like: data.main.feels_like,
+//                 id: data.id,
+//             }
 
+//         } catch {
 
-// export const deleteCard = createAsyncThunk (
-//     'weather/delete',
-//     async (data: any, )
+//         }
+//     }
 // )

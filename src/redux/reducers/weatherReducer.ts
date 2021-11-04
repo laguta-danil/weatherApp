@@ -18,7 +18,7 @@ const initialState: WeatherState = {
     isLoading: false,
     error: '',
     citiesData: [],
-    text: 'rostov',
+    text: '',
     id: 0
 
 }
@@ -36,21 +36,8 @@ export const WeatherSlice = createSlice({
         }, 
         localStoreCities (state, action: any) {
             state.citiesData = action.payload
-        }
-        // weatherFetching(state) {
-        //     state.isLoading = true;
-
-        // },
-        // weatherFetchingSuccess(state, action: PayloadAction<weatherTypes[]>) {
-        //     state.isLoading = false;
-        //     state.error = '';
-        //     state.getWeather = action.payload;
-
-        // },
-        // weatherFetchingError(state, action: PayloadAction<string>) {
-        //     state.isLoading = false;
-        //     state.error = action.payload
-        // }
+        },
+        
     },
     extraReducers: {
         [fetchWeather.fulfilled.type]: (state, action: PayloadAction<weatherTypes[]>) => {
@@ -77,9 +64,6 @@ export const WeatherSlice = createSlice({
             state.isLoading = false;
             state.error = action.payload
         },
-
-
-    
 
     }
 
