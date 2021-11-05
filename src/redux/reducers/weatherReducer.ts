@@ -70,7 +70,6 @@ export const WeatherSlice = createSlice({
         },
 
         [updateWeather.fulfilled.type]: (state, action: PayloadAction<textTypes[]>) => {
-            debugger
             state.isLoading = false;
             state.error = '';
             state.citiesData = action.payload;

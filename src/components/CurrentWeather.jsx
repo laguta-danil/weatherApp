@@ -21,7 +21,7 @@ const CurrentWeather = ({ description, city, temperature, feels_like, id, humidi
     }
     
     
-    const handleUpdate = () => {
+    const handleUpdate = (e) => {
         dispatch(updateWeather({city, id, cities: citiesData }))
     }
 
