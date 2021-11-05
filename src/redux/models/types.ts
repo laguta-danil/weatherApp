@@ -3,7 +3,8 @@
      name: string;
      description: string;
      temperature: number;
-     feels_like: number
+     feels_like: number;
+     humidity: number
  }
 
  export interface textTypes {
@@ -12,4 +13,5 @@
     description: string;
     temperature: number;
     feels_like: number;
+    humidity: number;
  }

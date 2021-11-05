@@ -1,8 +1,9 @@
 import { Button, Card } from 'react-bootstrap'
+import { updateWeather } from '../redux/reducers/actionCreactor'
 import { WeatherSlice } from '../redux/reducers/weatherReducer'
 import { useAppDispatch, useAppSelector } from '../redux/reduxHooks/reduxHooks'
 
-const CurrentWeather = ({ description, city, temperature, feels_like, id }) => {
+const CurrentWeather = ({ description, city, temperature, feels_like, id, humidity }) => {
     const celsius = Math.round(temperature - 273.15)
     const feeling = Math.round(feels_like - 273.15)
 
@@ -19,13 +20,9 @@ const CurrentWeather = ({ description, city, temperature, feels_like, id }) => {
         return changeData
     }
     
+    
     const handleUpdate = () => {
-        const updateCitiesData = citiesData.filter(element => element.id !== id
-        )
-        // const renewData = dispatch(handleDeleteData(newCitiesData))
-        
-        // localStorage.setItem('cities', JSON.stringify(changeData.payload))
-        // return changeData
+        dispatch(updateWeather({city, id, cities: citiesData }))
     }
 
 
@@ -38,6 +35,7 @@ const CurrentWeather = ({ description, city, temperature, feels_like, id }) => {
                 {temperature && <h2>{(celsius > 0 ? '+' + celsius : celsius)} °C </h2>}
                 {feels_like && <p>Feels like : {(feeling > 0 ? '+' + feeling : feeling)}</p>}
                 {description && <p>Сloudy : {description}</p>}
+                {humidity && <p> Humidity: {humidity}%</p>}
             </Card.Body>
             <span>
                 <Button onClick={() => handleDelete()} style={{ width: '10rem' }} variant='outline-danger' className='m-1' >Delete</Button>

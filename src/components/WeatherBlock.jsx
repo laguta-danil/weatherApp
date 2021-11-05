@@ -5,8 +5,6 @@ import InputForm from "./InputForm";
 import style from "./weatherBlock.module.css"
 
 
-// debugger;
-
 const WeatherBlock = () => {
 
     const {citiesData } = useAppSelector(state => state.weatherReducer)
@@ -17,6 +15,7 @@ const WeatherBlock = () => {
         temperature={arr.temperature}
         feels_like={arr.feels_like}
         id={arr.id}
+        humidity={arr.humidity}
     />)
     
     return (

@@ -24,6 +24,7 @@ const InputForm = (props) => {
         dispatch(getWeatherLocal(cities))
     }, [])
 
+
     const addCard = (e) => {
         e.preventDefault()
         dispatch(fetchWeather({ city: text, cities: citiesData }))
